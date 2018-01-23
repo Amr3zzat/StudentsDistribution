@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for users in allusers %}
+                <tr>
+                    <td>{{ users.id }}</td>
+                    <td>{{ users.first_name }}</td>
+                    <td>{{ users.profile.get_dep_display}}</td>
+
+
+                </tr>
+            {% endfor %}
+
+</body>
+</html>

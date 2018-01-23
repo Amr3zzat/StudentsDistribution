@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import password_reset, password_reset_confirm
 
-
 # Create your views here.
 
 
@@ -41,3 +40,8 @@ def signin(request):
                 return render(request, 'auth/signin.html')
         else:
             return render(request, 'auth/signin.html')
+
+
+def list(request):
+    users = User.objects.all()
+    return render(request, "panel.html", {"allusers": users})
