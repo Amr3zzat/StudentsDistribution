@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.forms import ModelForm
 
 
 class student(models.Model):
@@ -20,3 +21,21 @@ class student(models.Model):
     def __str__(self):  # __unicode__ for Python 2
         return self.user.username
 
+def create_user_profile(sender, instance, created):
+    if created:
+        student.objects.create(user=instance)
+
+def save_user_profile(sender, instance , **kwargs):
+    instance.student.save()
+
+
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+class studentForm(ModelForm):
+    class Meta:
+        model = student
+        fields = ('dep', 'deg')
