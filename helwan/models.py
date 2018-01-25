@@ -18,14 +18,16 @@ class student(models.Model):
     dep = models.PositiveSmallIntegerField(choices=Dep_CHOICES, null=True, blank=True)
     deg = models.FloatField(null=True, blank=True)
 
-    def __str__(self):  # __unicode__ for Python 2
+    def __str__(self):
         return self.user.username
 
-def create_user_profile(sender, instance, created):
+
+def create_user_profile(sender, instance, created, **kwargs):
     if created:
         student.objects.create(user=instance)
 
-def save_user_profile(sender, instance , **kwargs):
+
+def save_user_profile(sender, instance, **kwargs):
     instance.student.save()
 
 
@@ -34,6 +36,7 @@ class UserForm(ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
+
 
 class studentForm(ModelForm):
     class Meta:
