@@ -32,7 +32,11 @@ def add_stu(request):
     else:
         user_form = UserForm(request.POST)
         profile_form = studentForm(request.POST)
-        new_user = user_form.save()
+
+        new_user = user_form.save(commit=False)
+        pas = user_form.cleaned_data['password']
+        new_user.set_password(pas)
+        new_user.save()
         profile = profile_form.save(commit=False)
         profile.user = new_user
         profile.save()
