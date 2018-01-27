@@ -42,3 +42,9 @@ class studentForm(ModelForm):
     class Meta:
         model = student
         fields = ('dep', 'deg')
+
+class updateForm(ModelForm):
+    class Meta:
+        model = student
+        fields = ['dep']
+
