@@ -10,9 +10,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home),
     url(r'^add_stu/$', views.add_stu),
-    url(r'^login/$',views.signin),
-    url(r'^logout/$', views.signout),
-    url(r'^list/$',views.list),
+    url(r'^accounts/login/$',views.signin),
+    url(r'^accounts/login/$',views.signout),
+    url(r'^panel/$',views.list),
     url(r'^select/$', views.update_profile),
 
 ]

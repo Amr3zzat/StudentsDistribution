@@ -15,8 +15,8 @@ class student(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    dep = models.PositiveSmallIntegerField(choices=Dep_CHOICES, null=True, blank=True)
-    deg = models.FloatField(null=True, blank=True)
+    Department = models.PositiveSmallIntegerField(choices=Dep_CHOICES, null=True, blank=True,default=Communications)
+    Degree = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return self.user.username
@@ -41,10 +41,11 @@ class UserForm(ModelForm):
 class studentForm(ModelForm):
     class Meta:
         model = student
-        fields = ('dep', 'deg')
+        fields = ['Degree']
+
 
 class updateForm(ModelForm):
     class Meta:
         model = student
-        fields = ['dep']
+        fields = ['Department']
 

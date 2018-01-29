@@ -45,7 +45,7 @@ def add_stu(request):
         profile = profile_form.save(commit=False)
         profile.user = new_user
         profile.save()
-        return render(request, 'panel.html')
+        return redirect('/panel')
 
 
 
@@ -87,19 +87,12 @@ def signout(request):
 @transaction.atomic
 def update_profile(request):
     if request.method == 'POST':
-        user_form = UserForm(request.POST, instance=request.user)
-        profile_form = updateForm(request.POST, instance=request.user.student)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, _('Your profile was successfully updated!'))
-            return redirect('settings:profile')
-        else:
-            messages.error(request,('Please correct the error below.'))
+        form = updateForm(request.POST, instance=request.user.student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, u'Your profile were successfully edited.')
+            return redirect(('/select'))
     else:
-        user_form = UserForm(instance=request.user)
-        profile_form = updateForm(instance=request.user.student )
-    return render(request, 'select.html', {
-        'user_form': user_form,
-        'profile_form': profile_form
-    })
+        form = updateForm(instance=request.user.student)
+        user=request.user
+    return render(request, 'select.html', {'form': form ,'username':user})

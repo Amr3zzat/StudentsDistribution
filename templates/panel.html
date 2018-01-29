@@ -7,8 +7,8 @@
 <body>
 
 <a href="logout/" >logout</a>
-{% for fd in allusers %}
-    <h1>{{ fd.username }}</h1>
+{% for users in allusers %}
+    <h1>{{ users.username }}&nbsp&nbsp{{ users.student.deg }}&nbsp&nbsp{{ users.student.get_dep_display}}</h1>
 {% endfor %}
 </body>
 </html>
