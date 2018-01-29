@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from .models import student ,updateForm
 from django.db import transaction
+from .mail import sendmail
 
 
 # Create your views here.
@@ -78,6 +79,7 @@ def signin(request):
             else:
                 return render(request, 'login.html')
 
+
 def signout(request):
     logout(request)
     return HttpResponseRedirect('/')
@@ -91,8 +93,14 @@ def update_profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, u'Your profile were successfully edited.')
+            user = request.user
+            m = "Your depart is " + user.student.get_Department_display()
+            n = str(m)
+            sendmail(user.email, n)
             return redirect(('/select'))
+
     else:
         form = updateForm(instance=request.user.student)
-        user=request.user
-    return render(request, 'select.html', {'form': form ,'username':user})
+        user = request.user
+
+    return render(request, 'select.html', {'form': form,'username':user})
