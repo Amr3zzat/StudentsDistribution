@@ -6,9 +6,9 @@
 </head>
 <body>
 
-<a href="logout/" >logout</a>
+<a href="../accounts/logout/" >logout</a>
 {% for users in allusers %}
-    <h1>{{ users.username }}&nbsp&nbsp{{ users.student.deg }}&nbsp&nbsp{{ users.student.get_dep_display}}</h1>
+    <h1>{{ users.username }}&nbsp&nbsp{{ users.student.Degree}}&nbsp&nbsp{{ users.student.get_Department_display}}</h1>
 {% endfor %}
 </body>
 </html>

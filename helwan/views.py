@@ -27,7 +27,7 @@ def home(request):
 @staff_member_required
 def list(request):
     users = User.objects.filter(is_staff=False)
-    return render(request, "panel.html", {"allusers": users})
+    return render(request, "panel.html", {'allusers': users})
 
 
 @login_required
