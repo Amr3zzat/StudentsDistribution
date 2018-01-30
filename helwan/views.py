@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, render ,redirect
+from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.models import User
@@ -23,8 +23,8 @@ def home(request):
 
 
 
-
-
+@login_required
+@staff_member_required
 def list(request):
     users = User.objects.filter(is_staff=False)
     return render(request, "panel.html", {"allusers": users})
@@ -49,7 +49,6 @@ def add_stu(request):
         return redirect('/panel')
 
 
-
 def signin(request):
     if request.method=='GET':
         return render(request,'login.html')
@@ -65,10 +64,10 @@ def signin(request):
                 if user is not None:
                     if user.is_active:
                         login(request, user)
-                        if user.is_staff==True:
-                            return render(request,'panel.html')
+                        if user.is_staff:
+                            return redirect('/panel')
                         else:
-                            return render(request,'panel.html',)
+                            return redirect('/select')
 
                     else:
                         messages.add_message(request, messages.ERROR, 'Your account is desactivated.')

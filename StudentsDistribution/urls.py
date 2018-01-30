@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^$', views.home),
     url(r'^add_stu/$', views.add_stu),
     url(r'^accounts/login/$',views.signin),
-    url(r'^accounts/login/$',views.signout),
+    url(r'^accounts/logout/$',views.signout),
     url(r'^panel/$',views.list),
     url(r'^select/$', views.update_profile),
 
