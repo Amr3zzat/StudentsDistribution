@@ -345,6 +345,10 @@ img{
   padding: 60px 0;
   width: 100%;
 }
+.panel-default {
+    border-color: #ddd;
+    width: 55%;
+}
 .aboutus_area {
   display: inline;
   float: left;
@@ -970,6 +974,7 @@ div[data-dimension] {
   background-color: #1e2223;
   padding: 60px 0px;
 }
+
 .single_footer_widget {
   display: inline;
   float: left;
@@ -1017,7 +1022,8 @@ div[data-dimension] {
   width: 100%;
   text-align: right;
 }
-
+.col-md-3 {
+    width: 33%;}
 /*--------------------*/
 /* COURSE ARCHIVE PAGE */
 /*--------------------*/
