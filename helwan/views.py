@@ -12,6 +12,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from .models import student ,updateForm
 from django.db import transaction
 from .mail import sendmail
+from helwan import lim
+from helwan.lim import tansiq
 
 
 # Create your views here.
@@ -26,14 +28,14 @@ def home(request):
 @staff_member_required
 def list(request):
     users = User.objects.filter(is_staff=False)
-    return render(request, "panel.html", {'allusers': users})
+    return render(request, "Admin_panel.html", {'allusers': users})
 
 
 @login_required
 @staff_member_required
 def add_stu(request):
     if request.method == 'GET':
-        return render(request, "add_student.html")
+        return render(request, "addstudent.html")
     else:
         user_form = UserForm(request.POST)
         profile_form = studentForm(request.POST)
@@ -82,6 +84,11 @@ def signout(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+def contact(request):
+    return render(request,'contact.html')
+
+def set(request):
+    return render(request,'acc.html')
 
 @login_required
 @transaction.atomic
@@ -102,3 +109,4 @@ def update_profile(request):
         user = request.user
 
     return render(request, 'select.html', {'form': form,'username':user})
+
