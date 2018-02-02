@@ -9,11 +9,10 @@ from django.contrib.auth.views import password_reset, password_reset_confirm
 from .models import studentForm, UserForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import student ,updateForm
+from .models import student ,updateForm,set
 from django.db import transaction
 from .mail import sendmail
-from helwan import lim
-from helwan.lim import tansiq
+import datetime
 
 
 # Create your views here.
@@ -93,7 +92,8 @@ def set(request):
 @login_required
 @transaction.atomic
 def update_profile(request):
-    if request.method == 'POST':
+    if datetime.datetime.now() < set.objects.values('deadline'):
+     if request.method == 'POST':
         form = updateForm(request.POST, instance=request.user.student)
         if form.is_valid():
             form.save()
