@@ -16,5 +16,6 @@ urlpatterns = [
     url(r'^select/$', views.update_profile),
     url(r'^contact/$', views.contact),
     url(r'^set/$', views.set),
+    url(r'^calculate/$', views.calc),
 
 ]

@@ -9,10 +9,14 @@ from django.contrib.auth.views import password_reset, password_reset_confirm
 from .models import studentForm, UserForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import student ,updateForm,set
+from .models import student ,updateForm,perc
 from django.db import transaction
 from .mail import sendmail
+from helwan.lim import tansiq
+from helwan import lim
+from django.db import models
 import datetime
+from django.utils import timezone
 
 
 # Create your views here.
@@ -92,21 +96,48 @@ def set(request):
 @login_required
 @transaction.atomic
 def update_profile(request):
-    if datetime.datetime.now() < set.objects.values('deadline'):
-     if request.method == 'POST':
-        form = updateForm(request.POST, instance=request.user.student)
-        if form.is_valid():
-            form.save()
-            messages.success(request, u'Your profile were successfully edited.')
+    dead =perc.objects.values_list('deadline').get(id=1)
+    tm=dead[0]
+    now = timezone.now()
+    if now < tm:
+        if request.method == 'POST':
+            form = updateForm(request.POST, instance=request.user.student)
+            if form.is_valid():
+                form.save()
+                messages.success(request, u'Your profile were successfully edited.')
+                user = request.user
+                m = "Your depart is " + user.student.get_Department_display()
+                n = str(m)
+                sendmail(user.email, n)
+                return redirect(('/select'))
+
+        else:
+            form = updateForm(instance=request.user.student)
             user = request.user
-            m = "Your depart is " + user.student.get_Department_display()
-            n = str(m)
-            sendmail(user.email, n)
-            return redirect(('/select'))
-
+        return render(request, 'select.html', {'form': form,'username':user})
     else:
-        form = updateForm(instance=request.user.student)
-        user = request.user
+        return HttpResponse("<h1>Deadline </h1>")
 
-    return render(request, 'select.html', {'form': form,'username':user})
 
+def calc(request):
+    comm=student.objects.filter(Department=2).values('Degree')
+    comp=student.objects.filter(Department=1).values('Degree')
+    per1 = perc.objects.values_list('per').get(id=1)
+    er=per1[0]
+    limit = tansiq(er,comp,comm)
+    limit=limit['Degree']
+    f = lim.flag
+    if f==0:
+        st = student.objects.filter(Department=1)
+        for s in st:
+            if s.Degree<limit:
+                s.Department=2
+                s.save()
+    else:
+        st=student.objects.filter(Department=2)
+        for s in st :
+            if s.Degree<limit:
+                s.Department=1
+                s.save()
+
+    return render(request,'done.html',{'limit':limit,'flag':f})

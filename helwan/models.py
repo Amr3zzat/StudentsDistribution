@@ -50,7 +50,8 @@ class updateForm(ModelForm):
         model = student
         fields = ['Department']
 
-class set(models.Model):
-    datenow = models.DateTimeField(default=datetime.now, blank=True)
-    deadline = models.DateField(blank=True)
+
+class perc(models.Model):
+    deadline = models.DateTimeField(blank=True)
     per = models.FloatField()
+
