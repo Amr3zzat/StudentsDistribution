@@ -12,9 +12,9 @@ from .mail import sendmail
 from helwan.lim import tansiq
 from helwan import lim
 from django.utils import timezone
+from django.http import HttpResponse
 
 
-# Create your views here.
 
 
 def home(request):
@@ -107,15 +107,16 @@ def update_profile(request):
         else:
             form = updateForm(instance=request.user.student)
             user = request.user
-        return render(request, 'select.html', {'form': form,'username':user})
+        return render(request, 'selection.html', {'form': form,'username':user})
     else:
         return HttpResponse("<h1>Deadline </h1>")
 
-
+@login_required
+@staff_member_required
 def calc(request):
     comm=student.objects.filter(Department=2).values('Degree')
     comp=student.objects.filter(Department=1).values('Degree')
-    per1 = perc.objects.values_list('per').get(id=1)
+    per1 = perc.objects.values_list('computerper').get(id=1)
     er=per1[0]
     limit = tansiq(er,comp,comm)
     limit=limit['Degree']
@@ -133,9 +134,10 @@ def calc(request):
                 s.Department=1
                 s.save()
 
-    return render(request,'done.html',{'limit':limit,'flag':f})
+    return redirect('/panel')
 
-
+@login_required
+@staff_member_required
 def setper(request):
     per = perc.objects.get(pk=1)
     form1 = updateper(request.POST or None,instance=per)
@@ -143,3 +145,5 @@ def setper(request):
         form1.save()
         return redirect('/panel')
     return render(request,'acc.html', {'form1':form1})
+
+

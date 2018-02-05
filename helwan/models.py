@@ -55,9 +55,9 @@ class updateForm(ModelForm):
 
 class perc(models.Model):
     deadline = models.DateTimeField(blank=True)
-    per = models.FloatField()
+    computerper = models.FloatField()
 
 class updateper(ModelForm):
     class Meta:
         model = perc
-        fields = ['deadline','per']
+        fields = ['deadline','computerper']
