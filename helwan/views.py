@@ -2,20 +2,15 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect, HttpResponse
-from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.views import password_reset, password_reset_confirm
-from .models import studentForm, UserForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import student ,updateForm,perc
+from .models import student ,updateForm,perc,studentForm, UserForm,updateper
 from django.db import transaction
 from .mail import sendmail
 from helwan.lim import tansiq
 from helwan import lim
-from django.db import models
-import datetime
 from django.utils import timezone
 
 
@@ -90,8 +85,6 @@ def signout(request):
 def contact(request):
     return render(request,'contact.html')
 
-def set(request):
-    return render(request,'acc.html')
 
 @login_required
 @transaction.atomic
@@ -141,3 +134,12 @@ def calc(request):
                 s.save()
 
     return render(request,'done.html',{'limit':limit,'flag':f})
+
+
+def setper(request):
+    per = perc.objects.get(pk=1)
+    form1 = updateper(request.POST or None,instance=per)
+    if form1.is_valid():
+        form1.save()
+        return redirect('/panel')
+    return render(request,'acc.html', {'form1':form1})

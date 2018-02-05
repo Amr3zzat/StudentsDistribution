@@ -79,8 +79,11 @@
         <li class="breadcrumb-item active">Acceptance percentage</li>
       </ol>
       <h1>Acceptance percentage</h1>
-      <hr>
-      <a class="btn btn-primary" href="#" id="toggleNavPosition">Acceptance percentage</a>
+        <form action=" " method="post">
+              {% csrf_token %}
+             {{ form1.as_p }}
+             <input class="btn btn-primary" type="submit" value="SET">
+        </form>
       <!-- Blank div to give the page height to preview the fixed vs. static navbar-->
       <div style="height: 1000px;"></div>
     </div>

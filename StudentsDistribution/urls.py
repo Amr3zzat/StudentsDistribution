@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^panel/$',views.list),
     url(r'^select/$', views.update_profile),
     url(r'^contact/$', views.contact),
-    url(r'^set/$', views.set),
+    url(r'^setper/$', views.setper),
     url(r'^calculate/$', views.calc),
 
 ]

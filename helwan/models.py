@@ -4,6 +4,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.forms import ModelForm
 from datetime import datetime
+from django.views.generic import UpdateView
+
 
 
 class student(models.Model):
@@ -55,3 +57,7 @@ class perc(models.Model):
     deadline = models.DateTimeField(blank=True)
     per = models.FloatField()
 
+class updateper(ModelForm):
+    class Meta:
+        model = perc
+        fields = ['deadline','per']
